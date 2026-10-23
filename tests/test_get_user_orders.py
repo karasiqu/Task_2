@@ -7,6 +7,7 @@ from urls import BASE_URL, GET_USER_ORDERS, TIMEOUT
 class TestGetUserOrders:
 
     @allure.title("Получение заказов авторизованным пользователем")
+    @allure.step("Получить заказы авторизованного пользователя")
     def test_get_orders_authorized(self, new_user):
         _, token = new_user
         
@@ -21,6 +22,7 @@ class TestGetUserOrders:
         assert "orders" in response.json()
 
     @allure.title("Получение заказов неавторизованным пользователем")
+    @allure.step("Получить заказы без авторизации")
     def test_get_orders_unauthorized(self):
         response = requests.get(
             BASE_URL + GET_USER_ORDERS,
@@ -29,4 +31,3 @@ class TestGetUserOrders:
 
         assert response.status_code == 401
         assert response.json() == {"success": False, "message": "You should be authorised"}
-        

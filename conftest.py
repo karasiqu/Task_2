@@ -13,3 +13,15 @@ def new_user():
     yield payload, access_token
     
     delete_user(access_token)
+
+@pytest.fixture
+def created_user():
+    payload = generate_user_data()
+    response = register_user(payload)
+
+    login_response = login_user(payload)
+    access_token = login_response.json()["accessToken"]
+
+    yield response
+
+    delete_user(access_token)
